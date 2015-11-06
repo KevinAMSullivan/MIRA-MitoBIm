@@ -225,7 +225,7 @@ echo $ABBREV"_R1&2_map" |  mailx -s $ABBREV"_R1&2_map" kev.am.sullivan@gmail.com
 
 #### for samtools v1.2		
 	$SAMTOOLS_HOME/samtools sort 			\
-		-o $ABBREV_R3_sorted.bam	\
+		-o $ABBREV"_R3_sorted.bam"	\
 		-O bam	\
 		-T $ABBREV"_sorted" \
 		-@ $THREADS 					\
