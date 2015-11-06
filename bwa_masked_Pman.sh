@@ -255,18 +255,18 @@ $SAMTOOLS1_8_HOME/samtools mpileup \
 	-C50 \
 	-f $REF_HOME/$REFGENOME \
 	$ABBREV"_R3_noDup.bam" \
-	>$ABBREV_mPileUp_0_1_18.vcf
+	>$ABBREV"_mPileUp_0_1_18.vcf"
 	
---echo $ABBREV_pileup_finished |  mailx -s $ABBREV"_pileup_finished" kev.am.sullivan@gmail.com
+echo $ABBREV_pileup_finished |  mailx -s $ABBREV"_pileup_finished" kev.am.sullivan@gmail.com
 
 	
 #=======================	
 #[6] generate fasta consensus from pileup
 
 perl $RAY_SOFTWARE/pileup2fasta_v1-4.pl \
-	-i $ABBREV_mPileUp_0_1_18.vcf \
-	-o $ABBREV__masked.fa	\
-	-g $ABBREV__masked.gff	\
+	-i $ABBREV"_mPileUp_0_1_18.vcf" \
+	-o $ABBREV"__masked.fa"	\
+	-g $ABBREV"__masked.gff"	\
 	-b 8	\
 	-s		\
 	-V		
@@ -277,15 +277,15 @@ $SAMTOOLS_HOME/samtools index \
 
 $BEDTOOLS_HOME/bedtools genomecov \
 	-ibam $ABBREV"_R3_noDup.bam" \
-	-g $ABBREV__masked.fa \
-	| grep genome >$ABBREV_genome_cov.txt 
+	-g $ABBREV"__masked.fa" \
+	| grep genome >$ABBREV"_genome_cov.txt" 
 
 
-echo $ABBREV_fasta_finished" |  mailx -s $ABBREV"_fasta_finished" kev.am.sullivan@gmail.com
+#echo $ABBREV_fasta_finished" |  mailx -s $ABBREV"_fasta_finished" kev.am.sullivan@gmail.com
 
 
 	
-echo $ABBREV_assembly_finished" |  mailx -s $ABBREV"_assembly_finished" kev.am.sullivan@gmail.com
+#echo $ABBREV_assembly_finished" |  mailx -s $ABBREV"_assembly_finished" kev.am.sullivan@gmail.com
 
 done
 sleep 5
