@@ -55,15 +55,15 @@ cd $WORKDIR/$SAMPLE_ID
 
 #======================
 #MIRA4 assembly 
-#Create manifest.config for MIRA
-echo -e "\n#manifest file for basic mapping assembly with illumina data using MIRA 4\n\nproject = initial-mapping-of-"$SAMPLE_ID"-to-aMon-mt\n\njob=genome,mapping,accurate\n\nparameters = -NW:mrnl=0 -AS:nop=1 SOLEXA_SETTINGS -CO:msr=no\n\nreadgroup\nis_reference\ndata = $REF_HOME/$REFGENOME\nstrain = aMon-mt-genome\n\nreadgroup = reads\ndata = "$UNZIPPED_RAW_HOME/$SAMPLE_ID"_L001_R1_001.fastq" $UNZIPPED_RAW_HOME/$SAMPLE_ID"_L001_R2_001.fastq\ntechnology = solexa\nstrain = "$SAMPLE_ID"\n" > $SUPPORT_FILES/$SAMPLE_ID"_manifest.conf"
+#Create manifest.config for MIRA. This will specify the parameters for MIRA assembly completed in the next step. Input reads were raw, and set to be trimmed via the -CL:pec=yes option. 
+echo -e "\n#manifest file for basic mapping assembly with illumina data using MIRA 4\n\nproject = initial-mapping-of-"$SAMPLE_ID"-to-aMon-mt\n\njob=genome,mapping,accurate\n\nparameters = -NW:mrnl=0 -AS:nop=1 SOLEXA_SETTINGS -CO:msr=no CL:pec=yes\n\nreadgroup\nis_reference\ndata = $REF_HOME/$REFGENOME\nstrain = aMon-mt-genome\n\nreadgroup = reads\ndata = "$UNZIPPED_RAW_HOME/$SAMPLE_ID"_L001_R1_001.fastq" $UNZIPPED_RAW_HOME/$SAMPLE_ID"_L001_R2_001.fastq\ntechnology = solexa\nstrain = "$SAMPLE_ID"\n" > $SUPPORT_FILES/$SAMPLE_ID"_manifest.conf"
 
 #Run MIRA
 $MIRA_HOME/bin/mira $SUPPORT_FILES/$SAMPLE_ID"_manifest.conf"
 
 #======================
 #MITObim assembly
-#Bait and iteratively map to the reference genome using MITObim
+#Bait and iteratively map the reads from MIRA to the reference genome using MITObim. This will produce the final assembly. 
 perl $RAY_SOFTWARE/MITObim_1.8.pl \
 	-start 1 \
 	-end 10 \
